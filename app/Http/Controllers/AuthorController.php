@@ -2,11 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Author;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Pest\Plugins\Only;
 
-class AuthorController extends Controller
+//implementare interfaccia
+class AuthorController extends Controller implements HasMiddleware
 {
+
+    public static function middleware()
+    {
+        return [
+            // 'auth'
+            new Middleware('auth', except: ['index','show']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
