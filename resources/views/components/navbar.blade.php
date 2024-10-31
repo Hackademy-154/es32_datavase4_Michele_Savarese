@@ -37,6 +37,7 @@
                             </form>
                             <li><a class="dropdown-item" href="{{ route('boardgame.create') }}">Inserisci un gioco</a></li>
                             <li><a class="dropdown-item" href="{{ route('author.create') }}">Inserisci un autore</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile') }}">Profilo utente</a></li>
 
                         </ul>
 
