@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Author;
-use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
 use Pest\Plugins\Only;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
 //implementare interfaccia
 class AuthorController extends Controller implements HasMiddleware
@@ -17,7 +18,7 @@ class AuthorController extends Controller implements HasMiddleware
     {
         return [
             // 'auth'
-            new Middleware('auth', except: ['index','show']),
+            new Middleware('auth', except: ['index', 'show']),
         ];
     }
     /**
@@ -45,12 +46,16 @@ class AuthorController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         Author::create([
+            'user_id' => Auth::user()->id,
             'name' => $request->name,
             'bio' => $request->bio,
-            'pic' => $request->has('pic') ? $request->file('pic')->store('pics', 'public') : null,
+            'pic' => $request->has('pic') ? $request->file('pic')->store('pics', 'public') : null
         ]);
+        // dd($request->all());
+
         return redirect()->route('author.create')->with('success', 'Autore Creato');
         //
+
     }
 
     /**
