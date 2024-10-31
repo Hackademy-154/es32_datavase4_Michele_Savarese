@@ -75,7 +75,14 @@ class AuthorController extends Controller implements HasMiddleware
      */
     public function edit(Author $author)
     {
-        return view('author.edit', compact('author'));
+if($author->user_id== Auth::user()->id){
+
+    return view('author.edit', compact('author'));
+} else {
+return redirect()->route('welcome')->with('error', ' non puoi modificare questo autore perchè è stato inserito da un altro utente')
+;}
+
+
         //
     }
 
