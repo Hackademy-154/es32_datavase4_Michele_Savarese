@@ -14,30 +14,31 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $author->name }}</h5>
                         <p class="card-text">{{ $author->bio }}</p>
+                        @if ($author->user)
+                            <h5 class="text-muted">Pubblicato da: {{ $author->user->name }} </h5>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
-@auth
-    @if (Auth::user()->id==$author->user_id)
+        @auth
+            @if (Auth::user()->id == $author->user_id)
+                <div class="row text-center">
+                    <div class="col-12">
+                        <a class="btn btn-warning" href="{{ route('author.edit', compact('author')) }}">Modifica</a>
+                    </div>
 
-        <div class="row text-center">
-            <div class="col-12">
-                <a class="btn btn-warning" href="{{ route('author.edit', compact('author')) }}">Modifica</a>
-            </div>
-
-            <div class="col-12">
-                <form method="POST" action="{{ route('author.destroy', compact('author')) }}">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger">
-                        Rimuovi Autore
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        @endif
+                    <div class="col-12">
+                        <form method="POST" action="{{ route('author.destroy', compact('author')) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger">
+                                Rimuovi Autore
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @endif
 
         @endauth
 
